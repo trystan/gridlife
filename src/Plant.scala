@@ -9,7 +9,7 @@ object PlantMaker { // Do work that can't be done in alternate constructor here.
                   new Color(64 + rng.nextInt(64), 64 + rng.nextInt(64), 64 + rng.nextInt(64)),
                   makeRandomEnergyPerClimate(rng))
     p.age = rng.nextInt(90)
-    p.energy = rng.nextInt(10)
+    p.energy = rng.nextInt(90)
     p
   }
   
@@ -21,10 +21,10 @@ object PlantMaker { // Do work that can't be done in alternate constructor here.
   }
 }
 
-class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate:Array[Int]) {
+class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate: Array[Int]) {
   
   var age = 0
-  var energy = 10
+  var energy = 15
   
   def alive = { age < 100 && energy > 0 }
   
@@ -35,12 +35,19 @@ class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate:Array[Int
     reproduce(w, rng)
   }
   
-  def makeChild(rng: Random): Plant = {
+  private def reproduce(w: World, rng: Random): Unit = {
+    if (energy < 100) return
+    
+    energy -= 20
+    w.addPlant(makeChild(rng))
+  }
+  
+  private def makeChild(rng: Random): Plant = {
     val childX = x + rng.nextInt(6) - 3
     val childY = y + rng.nextInt(6) - 3
-    var r = color.getRed() + rng.nextInt(6) - 3
-    var g = color.getGreen() + rng.nextInt(6) - 3
-    var b = color.getBlue() + rng.nextInt(6) - 3
+    val r = color.getRed() + rng.nextInt(6) - 3
+    val g = color.getGreen() + rng.nextInt(6) - 3
+    val b = color.getBlue() + rng.nextInt(6) - 3
     val childColor = new Color(Math.max(32, Math.min(r, 250)),
                                Math.max(32, Math.min(g, 250)),
                                Math.max(32, Math.min(b, 250)))
@@ -53,12 +60,5 @@ class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate:Array[Int
       epc(to) += 1
     }
     new Plant(childX, childY, childColor, epc)
-  }
-  
-  private def reproduce(w: World, rng: Random): Unit = {
-    if (energy < 100) return
-    
-    energy -= 20
-    w.addPlant(makeChild(rng))
   }
 }

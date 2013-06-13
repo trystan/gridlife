@@ -11,7 +11,7 @@ class Climate(width: Int, height: Int, rng: Random) {
   }
   
   def update = {
-    time += 0.001
+    time += 0.0001
     
     for (x <- 0 until width)
     for (y <- 0 until height)
