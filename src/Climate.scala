@@ -9,7 +9,7 @@ class Climate(width: Int, height: Int, rng: Random) {
   var grid = Array.ofDim[Int](width, height)
   
   def update = {
-    time += 1
+    time += 0.001
     
     for (x <- 0 until width)
     for (y <- 0 until height)
