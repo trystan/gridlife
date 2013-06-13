@@ -1,11 +1,9 @@
 import scala.util.Random
-import scala.swing.Color
-import scala.swing.Graphics2D
 
 class Climate(width: Int, height: Int, rng: Random) {
 
-  var time = rng.nextDouble() * 20;
-
+  var time = rng.nextDouble() * 20
+  
   var grid = Array.ofDim[Int](width, height)
   
   def climateAt(x: Int, y: Int):Int = {

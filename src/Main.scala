@@ -4,7 +4,6 @@ object gridlife extends SimpleSwingApplication {
 
   var world = new World(200, 150)
   world.update
-
   
   def top = new MainFrame {
     title = "Grid Life"
@@ -16,7 +15,7 @@ object gridlife extends SimpleSwingApplication {
       override def paintComponent(g: Graphics2D) = {
         super.paintComponent(g)
         
-        world.draw(g)
+        world.view.draw(g)
       }
     }
     

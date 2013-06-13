@@ -1,8 +1,7 @@
 import scala.util.Random
 import scala.swing.Color
-import scala.swing.Graphics2D
 
-object PlantMaker { // good idea? Do work that can't be done in alternate constructor 
+object PlantMaker { // Do work that can't be done in alternate constructor here. Good idea?
   def random(width: Int, height: Int, rng: Random): Plant = {
     var p = new Plant(
                   rng.nextInt(width),
@@ -41,9 +40,9 @@ class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate:Array[Int
     val childColor = new Color(color.getRed() + rng.nextInt(6) - 3,
                                color.getGreen() + rng.nextInt(6) - 3,
                                color.getBlue() + rng.nextInt(6) - 3)
-    var epc = energyPerClimate.clone()
-    var from = rng.nextInt(9)
-    var to = rng.nextInt(9)
+    val epc = energyPerClimate.clone()
+    val from = rng.nextInt(9)
+    val to = rng.nextInt(9)
     if (epc(from) > 0 && epc(to) < 9)
     {
       epc(from) -= 1
