@@ -38,9 +38,12 @@ class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate:Array[Int
   def makeChild(rng: Random): Plant = {
     val childX = x + rng.nextInt(6) - 3
     val childY = y + rng.nextInt(6) - 3
-    val childColor = new Color(color.getRed() + rng.nextInt(6) - 3,
-                               color.getGreen() + rng.nextInt(6) - 3,
-                               color.getBlue() + rng.nextInt(6) - 3)
+    var r = color.getRed() + rng.nextInt(6) - 3
+    var g = color.getGreen() + rng.nextInt(6) - 3
+    var b = color.getBlue() + rng.nextInt(6) - 3
+    val childColor = new Color(Math.max(32, Math.min(r, 250)),
+                               Math.max(32, Math.min(g, 250)),
+                               Math.max(32, Math.min(b, 250)))
     val epc = energyPerClimate.clone()
     val from = rng.nextInt(9)
     val to = rng.nextInt(9)
