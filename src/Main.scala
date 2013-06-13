@@ -2,15 +2,15 @@ import scala.swing._
 
 object gridlife extends SimpleSwingApplication {
 
-  var world = new World(200, 200)
+  var world = new World(200, 150)
   world.update
 
   
   def top = new MainFrame {
     title = "Grid Life"
-    size = new Dimension(600, 600)
-    preferredSize = new Dimension(600, 600)
-    minimumSize = new Dimension(600, 600)
+    size = new Dimension(800, 600)
+    preferredSize = new Dimension(800, 600)
+    minimumSize = new Dimension(800, 600)
 
     contents = new Panel {
       override def paintComponent(g: Graphics2D) = {

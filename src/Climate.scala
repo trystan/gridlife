@@ -8,6 +8,10 @@ class Climate(width: Int, height: Int, rng: Random) {
 
   var grid = Array.ofDim[Int](width, height)
   
+  def climateAt(x: Int, y: Int):Int = {
+    return grid(x)(y)
+  }
+  
   def update = {
     time += 0.001
     

@@ -7,9 +7,9 @@ class World(width: Int, height: Int) {
   var climate = new Climate(width, height, rng)
   
   var plantGrid = Array.ofDim[Plant](width, height)
-  var plantList = Vector.empty :+ new Plant(rng)
+  var plantList = Vector.empty[Plant]
   for (_ <- 0 to (width * height / 100))
-	  addSeed(new Plant(rng))
+	  addSeed(PlantMaker.random(rng))
 
   def update = {
     climate.update
@@ -20,6 +20,10 @@ class World(width: Int, height: Int) {
   def draw(g: Graphics2D) = {
     climate.draw(g)
     plantList.foreach(p => p.draw(g))
+  }
+  
+  def climateAt(x: Int, y: Int):Int = {
+    return climate.climateAt(x, y)
   }
   
   def addSeed(plant: Plant): Unit = {
