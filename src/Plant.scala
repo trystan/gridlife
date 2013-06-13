@@ -42,6 +42,21 @@ class Plant(var x: Int, var y: Int, color: Color, energyPerClimate:Array[Int]) {
     w.addSeed(new Plant(x, y, color, energyPerClimate))
   }
   
+  def mutate(rng: Random): Plant = {
+    val c = new Color(color.getRed() + rng.nextInt(6) - 3,
+                      color.getGreen() + rng.nextInt(6) - 3,
+                      color.getBlue() + rng.nextInt(6) - 3)
+    var epc = energyPerClimate.clone()
+    var from = rng.nextInt(9)
+    var to = rng.nextInt(9)
+    if (epc(from) > 0 && epc(to) < 9)
+    {
+      epc(from) -= 1
+      epc(to) += 1
+    }
+    new Plant(x, y, c, epc)
+  }
+  
   def draw(g: Graphics2D): Unit = {
     g.setColor(color)
     g.fillRect(x * 4 + 1, y * 4 + 1, 2, 2)

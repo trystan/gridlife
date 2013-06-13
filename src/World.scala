@@ -35,9 +35,10 @@ class World(width: Int, height: Int) {
     
     if (plantGrid(plant.x)(plant.y) != null)
       return
-    
-    plantGrid(plant.x)(plant.y) = plant
-    plantList = plantList :+ plant
+      
+    val mutated = plant.mutate(rng)
+    plantGrid(mutated.x)(mutated.y) = mutated
+    plantList = plantList :+ mutated
   }
   
   def removeDeadPlants = {
