@@ -1,7 +1,7 @@
 import scala.swing.Color
 import scala.swing.Graphics2D
 
-class View (width: Int, height: Int, val climate: Climate, val plants:Vector[Plant]) {
+class View (width: Int, height: Int, climate: Climate, plants:Vector[Plant]) {
   
   def draw(g: Graphics2D) = {
     drawClimate(climate, g)

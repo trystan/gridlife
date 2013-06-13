@@ -28,13 +28,14 @@ class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate:Array[Int
   
   def alive = { age < 100 && energy > 0 }
   
-  def update(w: World) = {
+  def update(w: World, rng: Random) = {
     age += 1
     energy += energyPerClimate(w.climateAt(x, y)) - 1
-    reproduce(w)
+    
+    reproduce(w, rng)
   }
   
-  def mutate(rng: Random): Plant = {
+  def makeChild(rng: Random): Plant = {
     val childX = x + rng.nextInt(6) - 3
     val childY = y + rng.nextInt(6) - 3
     val childColor = new Color(color.getRed() + rng.nextInt(6) - 3,
@@ -51,10 +52,10 @@ class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate:Array[Int
     new Plant(childX, childY, childColor, epc)
   }
   
-  private def reproduce(w: World): Unit = {
+  private def reproduce(w: World, rng: Random): Unit = {
     if (energy < 100) return
     
     energy -= 20
-    w.addPlant(new Plant(x, y, color, energyPerClimate))
+    w.addPlant(makeChild(rng))
   }
 }

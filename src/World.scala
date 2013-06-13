@@ -14,27 +14,25 @@ class World(width: Int, height: Int) {
   }
   
   def addPlant(plant: Plant): Unit = {
-    val mutated = plant.mutate(rng)
-    
-    if (mutated.x < 0 || mutated.x >= width 
-     || mutated.y < 0 || mutated.y >= height
-     || plantGrid(mutated.x)(mutated.y) != null)
+    if (plant.x < 0 || plant.x >= width 
+     || plant.y < 0 || plant.y >= height
+     || plantGrid(plant.x)(plant.y) != null)
       return
-      
-    plantGrid(mutated.x)(mutated.y) = mutated
-    plantList = plantList :+ mutated
-  }
-  
-  def removeDeadPlants = {
-    plantList.filter(p => !p.alive).foreach(p => plantGrid(p.x)(p.y) = null)
-    plantList = plantList.filter(p => p.alive)
+    
+    plantGrid(plant.x)(plant.y) = plant
+    plantList = plantList :+ plant
   }
   
   def update = {
     climate.update
-    plantList.foreach(p => p.update(this))
+    plantList.foreach(p => p.update(this, rng))
     removeDeadPlants
   }
   
   def view = new View(width, height, climate, plantList)
+  
+  private def removeDeadPlants = {
+    plantList.filter(p => !p.alive).foreach(p => plantGrid(p.x)(p.y) = null)
+    plantList = plantList.filter(p => p.alive)
+  }
 }
