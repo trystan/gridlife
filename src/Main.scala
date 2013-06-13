@@ -1,12 +1,9 @@
 import scala.swing._
-import scala.swing.event._
-import scala.actors._
-import scala.Array
-import scala.util.Random
 
 object gridlife extends SimpleSwingApplication {
 
   var world = new World(200, 200)
+  world.update
 
   def top = new MainFrame {
     title = "Grid Life"
@@ -17,6 +14,7 @@ object gridlife extends SimpleSwingApplication {
     contents = new Panel {
       override def paintComponent(g: Graphics2D) = {
         super.paintComponent(g)
+        
         world.draw(g)
       }
     }

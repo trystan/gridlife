@@ -9,6 +9,10 @@ class Plant(x: Int, y: Int, color: Color) {
     rng.nextInt(200),
     new Color(128 + rng.nextInt(64), 128 + rng.nextInt(64), 128 + rng.nextInt(64)))
 
+  def update = {
+    
+  }
+  
   def draw(g: Graphics2D): Unit = {
     g.setColor(color)
     g.fillRect(x * 4 + 1, y * 4 + 1, 2, 2)
