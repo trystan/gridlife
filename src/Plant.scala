@@ -3,18 +3,18 @@ import scala.swing.Color
 import scala.swing.Graphics2D
 
 object PlantMaker { // good idea? Do work that can't be done in alternate constructor 
-  def random(rng: Random): Plant = {
+  def random(width: Int, height: Int, rng: Random): Plant = {
     var p = new Plant(
-                  rng.nextInt(200),
-                  rng.nextInt(150),
-                  new Color(128 + rng.nextInt(64), 128 + rng.nextInt(64), 128 + rng.nextInt(64)),
+                  rng.nextInt(width),
+                  rng.nextInt(height),
+                  new Color(64 + rng.nextInt(64), 64 + rng.nextInt(64), 64 + rng.nextInt(64)),
                   makeRandomEnergyPerClimate(rng))
-    p.age = rng.nextInt(20)
-    p.energy = rng.nextInt(20)
+    p.age = rng.nextInt(90)
+    p.energy = rng.nextInt(10)
     p
   }
   
-  def makeRandomEnergyPerClimate(rng:Random):Array[Int] = {
+  private def makeRandomEnergyPerClimate(rng:Random):Array[Int] = {
     var arr = Array.ofDim[Int](9)
     for (_ <- 0 until 9)
       arr(rng.nextInt(9)) += 1
@@ -22,7 +22,7 @@ object PlantMaker { // good idea? Do work that can't be done in alternate constr
   }
 }
 
-class Plant(var x: Int, var y: Int, color: Color, energyPerClimate:Array[Int]) {
+class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate:Array[Int]) {
   
   var age = 0
   var energy = 10
@@ -35,17 +35,12 @@ class Plant(var x: Int, var y: Int, color: Color, energyPerClimate:Array[Int]) {
     reproduce(w)
   }
   
-  def reproduce(w: World): Unit = {
-    if (energy < 100) return
-    
-    energy -= 30
-    w.addSeed(new Plant(x, y, color, energyPerClimate))
-  }
-  
   def mutate(rng: Random): Plant = {
-    val c = new Color(color.getRed() + rng.nextInt(6) - 3,
-                      color.getGreen() + rng.nextInt(6) - 3,
-                      color.getBlue() + rng.nextInt(6) - 3)
+    val childX = x + rng.nextInt(6) - 3
+    val childY = y + rng.nextInt(6) - 3
+    val childColor = new Color(color.getRed() + rng.nextInt(6) - 3,
+                               color.getGreen() + rng.nextInt(6) - 3,
+                               color.getBlue() + rng.nextInt(6) - 3)
     var epc = energyPerClimate.clone()
     var from = rng.nextInt(9)
     var to = rng.nextInt(9)
@@ -54,11 +49,13 @@ class Plant(var x: Int, var y: Int, color: Color, energyPerClimate:Array[Int]) {
       epc(from) -= 1
       epc(to) += 1
     }
-    new Plant(x, y, c, epc)
+    new Plant(childX, childY, childColor, epc)
   }
   
-  def draw(g: Graphics2D): Unit = {
-    g.setColor(color)
-    g.fillRect(x * 4 + 1, y * 4 + 1, 2, 2)
+  private def reproduce(w: World): Unit = {
+    if (energy < 100) return
+    
+    energy -= 20
+    w.addPlant(new Plant(x, y, color, energyPerClimate))
   }
 }

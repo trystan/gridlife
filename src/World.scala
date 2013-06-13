@@ -9,34 +9,21 @@ class World(width: Int, height: Int) {
   var plantGrid = Array.ofDim[Plant](width, height)
   var plantList = Vector.empty[Plant]
   for (_ <- 0 to (width * height / 100))
-	  addSeed(PlantMaker.random(rng))
-
-  def update = {
-    climate.update
-    plantList.foreach(p => p.update(this))
-    removeDeadPlants
-  }
-  
-  def draw(g: Graphics2D) = {
-    climate.draw(g)
-    plantList.foreach(p => p.draw(g))
-  }
+	  addPlant(PlantMaker.random(width, height, rng))
   
   def climateAt(x: Int, y: Int):Int = {
     return climate.climateAt(x, y)
   }
   
-  def addSeed(plant: Plant): Unit = {
-    plant.x += rng.nextInt(6) - 3
-    plant.y += rng.nextInt(6) - 3
+  def addPlant(plant: Plant): Unit = {
+    val mutated = plant.mutate(rng)
     
-    if (plant.x < 0 || plant.x >= width || plant.y < 0 || plant.y >= height)
+    if (mutated.x < 0 || mutated.x >= width || mutated.y < 0 || mutated.y >= height)
       return
     
-    if (plantGrid(plant.x)(plant.y) != null)
+    if (plantGrid(mutated.x)(mutated.y) != null)
       return
       
-    val mutated = plant.mutate(rng)
     plantGrid(mutated.x)(mutated.y) = mutated
     plantList = plantList :+ mutated
   }
@@ -44,5 +31,30 @@ class World(width: Int, height: Int) {
   def removeDeadPlants = {
     plantList.filter(p => !p.alive).foreach(p => plantGrid(p.x)(p.y) = null)
     plantList = plantList.filter(p => p.alive)
+  }
+  
+  def update = {
+    climate.update
+    plantList.foreach(p => p.update(this))
+    removeDeadPlants
+  }
+  
+  def draw(g: Graphics2D) = {
+    drawClimate(climate, g)
+    plantList.foreach(p => drawPlant(p, g))
+  }
+  
+  def drawClimate(climate: Climate, g: Graphics2D): Unit = {
+    for (x <- 0 until width)
+    for (y <- 0 until height) {
+      val value = climate.climateAt(x, y)
+      g.setColor(new Color(value * 9 + 8, value * 9 + 4, value * 9))
+      g.fillRect(x * 4, y * 4, 4, 4)
+    }
+  }
+  
+  def drawPlant(plant: Plant, g: Graphics2D): Unit = {
+    g.setColor(plant.color)
+    g.fillRect(plant.x * 4 + 1, plant.y * 4 + 1, 2, 2)
   }
 }
