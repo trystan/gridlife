@@ -7,15 +7,31 @@ object gridlife extends SimpleSwingApplication {
   
   def top = new MainFrame {
     title = "Grid Life"
-    size = new Dimension(800, 600)
-    preferredSize = new Dimension(800, 600)
-    minimumSize = new Dimension(800, 600)
+    size = new Dimension(800, 700)
+    preferredSize = new Dimension(800, 700)
+    minimumSize = new Dimension(800, 700)
 
-    contents = new Panel {
-      override def paintComponent(g: Graphics2D) = {
-        super.paintComponent(g)
-        
-        world.view.draw(g)
+    val counter = new Label { text = "There are 0 plants." }
+    
+    contents = new BoxPanel(Orientation.Vertical) {
+      { 
+    	  contents += new Panel {
+		    size = new Dimension(800, 600)
+		    preferredSize = new Dimension(800, 600)
+		    minimumSize = new Dimension(800, 600)
+	        override def paintComponent(g: Graphics2D) = {
+	          super.paintComponent(g)
+	          
+	          counter.text = "There are " + world.plantList.length + " plants."
+	          world.view.draw(g)
+	        }
+      	  }
+    	  contents += new BoxPanel(Orientation.Vertical) {
+		    size = new Dimension(800, 100)
+		    preferredSize = new Dimension(800, 100)
+		    minimumSize = new Dimension(800, 100)
+		    contents += counter
+    	  }
       }
     }
     
