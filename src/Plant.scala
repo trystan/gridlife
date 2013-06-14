@@ -21,7 +21,7 @@ object PlantMaker { // Do work that can't be done in alternate constructor here.
   }
 }
 
-class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate: Array[Int]) {
+class Plant(var x: Int, var y: Int, val color: Color, val energyPerClimate: Array[Int]) {
   
   var age = 0
   var energy = 15

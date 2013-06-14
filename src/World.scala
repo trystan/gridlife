@@ -10,7 +10,11 @@ class World(width: Int, height: Int) {
 	  addPlant(PlantMaker.random(width, height, rng))
   
   def climateAt(x: Int, y: Int):Int = {
-    return climate.climateAt(x, y)
+    climate.climateAt(x, y)
+  }
+  
+  def plantAt(x: Int, y: Int):Plant = {
+    plantGrid(x)(y)
   }
   
   def addPlant(plant: Plant): Unit = {

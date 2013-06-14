@@ -1,4 +1,6 @@
 import scala.swing._
+import scala.swing.event.ButtonClicked
+import scala.swing.event.MouseClicked
 
 object gridlife extends SimpleSwingApplication {
 
@@ -11,7 +13,9 @@ object gridlife extends SimpleSwingApplication {
     preferredSize = new Dimension(800, 700)
     minimumSize = new Dimension(800, 700)
 
-    val counter = new Label { text = "There are 0 plants." }
+    val locationLabel = new Label { text = " No plant selected" }
+    val colorLabel = new Label
+    val dnaLabel = new Label
     
     contents = new BoxPanel(Orientation.Vertical) {
       { 
@@ -22,16 +26,36 @@ object gridlife extends SimpleSwingApplication {
 	        override def paintComponent(g: Graphics2D) = {
 	          super.paintComponent(g)
 	          
-	          counter.text = "There are " + world.plantList.length + " plants."
 	          world.view.draw(g)
 	        }
+		    listenTo(mouse.clicks)
+			reactions += {
+			  case e: MouseClicked =>
+			    select(world.plantAt(e.point.x / 4, e.point.y / 4))
+			}
       	  }
     	  contents += new BoxPanel(Orientation.Vertical) {
 		    size = new Dimension(800, 100)
 		    preferredSize = new Dimension(800, 100)
 		    minimumSize = new Dimension(800, 100)
-		    contents += counter
+		    contents += locationLabel
+		    contents += colorLabel
+		    contents += dnaLabel
     	  }
+      }
+    }
+  
+    def select(plant: Plant) = {
+      if (plant == null) {
+        locationLabel.text = "No plant selected"
+        colorLabel.text = ""
+        dnaLabel.text = ""
+      } else {
+        locationLabel.text = "Location: " + plant.x + "," + plant.y + "\t\tClimate: " + (world.climateAt(plant.x, plant.y) + 1)
+        colorLabel.text = "Color: " + plant.color.getRed() + " " + plant.color.getGreen() + " " + plant.color.getBlue()
+    	dnaLabel.text = "Eergy gained per climate: "
+    	for (i <- 0 until plant.energyPerClimate.length)
+    	  dnaLabel.text += " " + (i+1) + ":" + plant.energyPerClimate(i)
       }
     }
     
