@@ -13,9 +13,7 @@ object gridlife extends SimpleSwingApplication {
     preferredSize = new Dimension(800, 700)
     minimumSize = new Dimension(800, 700)
 
-    val locationLabel = new Label { text = " No plant selected" }
-    val colorLabel = new Label
-    val dnaLabel = new Label
+    val dnaLabel = new Label { text = " No plant selected" }
 
     var recentClimate = Vector.empty[Double]
     val climateSampleRate = 10
@@ -56,8 +54,6 @@ object gridlife extends SimpleSwingApplication {
             size = new Dimension(600, 100)
             preferredSize = new Dimension(600, 100)
             minimumSize = new Dimension(600, 100)
-            contents += locationLabel
-            contents += colorLabel
             contents += dnaLabel
           }
         }
@@ -66,15 +62,15 @@ object gridlife extends SimpleSwingApplication {
 
     def select(plant: Plant) = {
       if (plant == null) {
-        locationLabel.text = "No plant selected"
-        colorLabel.text = ""
-        dnaLabel.text = ""
+        dnaLabel.text = "No plant selected"
       } else {
-        locationLabel.text = "Location: " + plant.x + "," + plant.y + "\t\tClimate: " + (world.climateAt(plant.x, plant.y) + 1)
-        colorLabel.text = "Color: " + plant.color.getRed() + " " + plant.color.getGreen() + " " + plant.color.getBlue()
-        dnaLabel.text = "Energy gained per climate: "
+        dnaLabel.text = "<html>Location: " + plant.x + "," + plant.y + "\t\tClimate: " + (world.climateAt(plant.x, plant.y) + 1)
+        dnaLabel.text += "<br/>Color: " + plant.color.getRed() + " " + plant.color.getGreen() + " " + plant.color.getBlue()
+        dnaLabel.text += "<br/>Energy gained per climate: "
         for (i <- 0 until plant.energyPerClimate.length)
-          dnaLabel.text += " " + (i + 1) + ":" + plant.energyPerClimate(i)
+          dnaLabel.text += " " + plant.energyPerClimate(i)
+        dnaLabel.text += "<br/>Spread: " + plant.spread
+        dnaLabel.text += "</html>"
       }
     }
 
