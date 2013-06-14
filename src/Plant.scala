@@ -4,8 +4,8 @@ import scala.swing.Color
 object PlantMaker { // Do work that can't be done in alternate constructor here. Good idea?
   def random(width: Int, height: Int, rng: Random): Plant = {
     var p = new Plant(
-                  rng.nextInt(width),
-                  rng.nextInt(height),
+                  rng.nextInt(width / 3) + width / 3,
+                  rng.nextInt(height / 3) + height / 3,
                   new Color(64 + rng.nextInt(64), 64 + rng.nextInt(64), 64 + rng.nextInt(64)),
                   makeRandomEnergyPerClimate(rng))
     p.age = rng.nextInt(90)
@@ -45,12 +45,10 @@ class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate: Array[In
   private def makeChild(rng: Random): Plant = {
     val childX = x + rng.nextInt(6) - 3
     val childY = y + rng.nextInt(6) - 3
-    val r = color.getRed() + rng.nextInt(6) - 3
-    val g = color.getGreen() + rng.nextInt(6) - 3
-    val b = color.getBlue() + rng.nextInt(6) - 3
-    val childColor = new Color(Math.max(32, Math.min(r, 250)),
-                               Math.max(32, Math.min(g, 250)),
-                               Math.max(32, Math.min(b, 250)))
+    val childColor = new Color(
+    						mutateColor(color.getRed(), rng),
+    						mutateColor(color.getGreen(), rng),
+    						mutateColor(color.getBlue(), rng))
     val epc = energyPerClimate.clone()
     val from = rng.nextInt(9)
     val to = rng.nextInt(9)
@@ -60,5 +58,11 @@ class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate: Array[In
       epc(to) += 1
     }
     new Plant(childX, childY, childColor, epc)
+  }
+  
+  private val offsets = List(-2, -1, 0, 1, 2)
+  private def mutateColor(int:Int, rng: Random): Int = {
+    val offset = offsets(rng.nextInt(offsets.length))
+    Math.max(32, Math.min(int + offset, 250))
   }
 }
