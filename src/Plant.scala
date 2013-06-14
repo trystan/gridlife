@@ -6,7 +6,7 @@ object PlantMaker { // Do work that can't be done in alternate constructor here.
     var p = new Plant(
                   rng.nextInt(width / 3) + width / 3,
                   rng.nextInt(height / 3) + height / 3,
-                  new Color(64 + rng.nextInt(64), 64 + rng.nextInt(64), 64 + rng.nextInt(64)),
+                  new Color(128 + rng.nextInt(64), 128 + rng.nextInt(64), 128 + rng.nextInt(64)),
                   makeRandomEnergyPerClimate(rng))
     p.age = rng.nextInt(90)
     p.energy = rng.nextInt(90)
@@ -60,9 +60,9 @@ class Plant(var x: Int, var y: Int, val color: Color, energyPerClimate: Array[In
     new Plant(childX, childY, childColor, epc)
   }
   
-  private val offsets = List(-2, -1, 0, 1, 2)
+  private val offsets = List(-2, -1, 0, 0, 0, 1, 2)
   private def mutateColor(int:Int, rng: Random): Int = {
     val offset = offsets(rng.nextInt(offsets.length))
-    Math.max(32, Math.min(int + offset, 250))
+    Math.max(64, Math.min(int + offset, 250))
   }
 }

@@ -24,7 +24,7 @@ object gridlife extends SimpleSwingApplication {
       this.repaint
     }
     
-    val timer = new javax.swing.Timer((30.0 / 1.0).toInt, 
+    val timer = new javax.swing.Timer((1.0 / 30.0).toInt, 
         new javax.swing.AbstractAction() {
 	    	def actionPerformed(e : java.awt.event.ActionEvent) = update
   	    })
