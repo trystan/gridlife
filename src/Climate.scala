@@ -2,7 +2,7 @@ import scala.util.Random
 
 class Climate(width: Int, height: Int, rng: Random) {
 
-  var perlinTime = rng.nextDouble() * 20
+  var perlinTime = rng.nextInt(2000) * 1.0
   var cycleTime = 0.0
   
   var grid = Array.ofDim[Int](width, height)
