@@ -64,12 +64,12 @@ object gridlife extends SimpleSwingApplication {
       if (plant == null) {
         dnaLabel.text = "No plant selected"
       } else {
-        dnaLabel.text = "<html>Location: " + plant.x + "," + plant.y + "\t\tClimate: " + (world.climateAt(plant.x, plant.y) + 1)
-        dnaLabel.text += "<br/>Color: " + plant.color.getRed() + " " + plant.color.getGreen() + " " + plant.color.getBlue()
-        dnaLabel.text += "<br/>Energy gained per climate: "
+        dnaLabel.text = "<html>Energy gained per climate: "
         for (i <- 0 until plant.energyPerClimate.length)
           dnaLabel.text += " " + plant.energyPerClimate(i)
+        dnaLabel.text += "<br/>Max Age: " + plant.maxAge
         dnaLabel.text += "<br/>Spread: " + plant.spread
+        dnaLabel.text += "<br/>Growth: " + Math.round(plant.growthSpeed * 10)
         dnaLabel.text += "</html>"
       }
     }
