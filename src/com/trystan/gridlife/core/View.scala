@@ -1,3 +1,5 @@
+package com.trystan.gridlife.core
+
 import scala.swing.Color
 import scala.swing.Graphics2D
 

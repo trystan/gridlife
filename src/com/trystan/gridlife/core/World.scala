@@ -1,3 +1,5 @@
+package com.trystan.gridlife.core
+
 import scala.util.Random
 
 class World(width: Int, height: Int) {

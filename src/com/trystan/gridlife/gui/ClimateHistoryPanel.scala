@@ -1,18 +1,21 @@
 
+package com.trystan.gridlife.gui
+
 import scala.swing.Panel
 import java.awt.Graphics2D
+import com.trystan.gridlife.core.Climate
 
 class ClimateHistoryPanel extends Panel {
   var recentClimate = Vector.empty[Double]
   val climateSampleRate = 10
   var climateSampleCounter = 0
 
-  def update(world: World) = {
+  def update(climate: Climate) = {
     climateSampleCounter += 1
 
     if (climateSampleCounter == climateSampleRate) {
       climateSampleCounter = 0
-      recentClimate = recentClimate :+ world.climate.cycles
+      recentClimate = recentClimate :+ climate.cycles
       if (recentClimate.length > 200)
         recentClimate = recentClimate.tail
     }

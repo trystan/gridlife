@@ -1,6 +1,9 @@
+package com.trystan.gridlife.gui
+
 import scala.swing.Panel
 import scala.swing.event.MouseClicked
 import java.awt.Graphics2D
+import com.trystan.gridlife.core.World
 
 class WorldViewPanel(world: World, selectedPlantInfoPanel: SelectedPlantInfoPanel) extends Panel {
 

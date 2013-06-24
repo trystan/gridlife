@@ -1,5 +1,8 @@
+package com.trystan.gridlife.gui
+
 import scala.swing.Panel
 import scala.swing.Label
+import com.trystan.gridlife.core.Plant
 
 class SelectedPlantInfoPanel extends Panel {
   val html = new Label { text = "<html>No plant selected</html>" }

@@ -1,6 +1,7 @@
+package com.trystan.gridlife.gui
+
 import scala.swing._
-import scala.swing.event.ButtonClicked
-import scala.swing.event.MouseClicked
+import com.trystan.gridlife.core.World
 
 object gridlife extends SimpleSwingApplication {
 
@@ -41,7 +42,7 @@ object gridlife extends SimpleSwingApplication {
 
     def update = {
       world.update
-      climateHistoryPanel.update(world)
+      climateHistoryPanel.update(world.climate)
       this.repaint
     }
 

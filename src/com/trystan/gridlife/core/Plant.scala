@@ -1,5 +1,6 @@
+package com.trystan.gridlife.core
+
 import scala.util.Random
-import scala.swing.Color
 
 object Plant {
   def random(width: Int, height: Int, rng: Random): Plant = {

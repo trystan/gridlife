@@ -1,3 +1,4 @@
+package com.trystan.gridlife.core;
 // from http://mrl.nyu.edu/~perlin/noise/
 
 // JAVA REFERENCE IMPLEMENTATION OF IMPROVED NOISE - COPYRIGHT 2002 KEN PERLIN.

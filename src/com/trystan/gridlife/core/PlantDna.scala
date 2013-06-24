@@ -1,3 +1,5 @@
+package com.trystan.gridlife.core
+
 import scala.util.Random
 import scala.swing.Color
 
