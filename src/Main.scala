@@ -13,11 +13,13 @@ object gridlife extends SimpleSwingApplication {
     preferredSize = new Dimension(800, 700)
     minimumSize = new Dimension(800, 700)
 
+    val climateHistoryPanel = new ClimateHistoryPanel {
+        size = new Dimension(200, 100)
+        preferredSize = new Dimension(200, 100)
+        minimumSize = new Dimension(200, 100)
+      }
+    
     val dnaLabel = new Label { text = " No plant selected" }
-
-    var recentClimate = Vector.empty[Double]
-    val climateSampleRate = 10
-    var climateSampleCounter = 0
 
     contents = new BoxPanel(Orientation.Vertical) {
       {
@@ -37,19 +39,7 @@ object gridlife extends SimpleSwingApplication {
           }
         }
         contents += new BoxPanel(Orientation.Horizontal) {
-          contents += new Panel {
-            size = new Dimension(200, 100)
-            preferredSize = new Dimension(200, 100)
-            minimumSize = new Dimension(200, 100)
-            override def paintComponent(g: Graphics2D) = {
-              super.paintComponent(g)
-              g.drawString("Climate", 2, 12)
-              for (t <- 0 until 200) {
-                if (recentClimate.length > t + 1)
-                  g.drawLine(t, (recentClimate(t) * -15 + 50).toInt, t + 1, (recentClimate(t + 1) * -15 + 50).toInt)
-              }
-            }
-          }
+          contents += climateHistoryPanel
           contents += new BoxPanel(Orientation.Vertical) {
             size = new Dimension(600, 100)
             preferredSize = new Dimension(600, 100)
@@ -76,14 +66,7 @@ object gridlife extends SimpleSwingApplication {
 
     def update = {
       world.update
-      climateSampleCounter += 1
-
-      if (climateSampleCounter == climateSampleRate) {
-        climateSampleCounter = 0
-        recentClimate = recentClimate :+ world.climate.cycles
-        if (recentClimate.length > 200)
-          recentClimate = recentClimate.tail
-      }
+      climateHistoryPanel.update(world)
       this.repaint
     }
 
