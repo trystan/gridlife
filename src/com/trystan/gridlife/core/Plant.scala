@@ -31,7 +31,7 @@ class Plant(var x: Int, var y: Int, val dna: PlantDna) {
   }
 
   private def makeChild(rng: Random): Plant = {
-    energy -= 100
+    energy -= 10 * growthSpeed
     new Plant(
       x + rng.nextInt(spread * 2 + 1) - spread,
       y + rng.nextInt(spread * 2 + 1) - spread,

@@ -10,24 +10,25 @@ object PlantDna {
       randomEnergyPerClimate(rng),
       rng.nextInt(8) + 1,
       50 + rng.nextInt(50) + rng.nextInt(50),
-      rng.nextInt(15) + rng.nextInt(15) + 1)
+      rng.nextInt(10) + rng.nextInt(10) + 1)
   }
 
   def randomEnergyPerClimate(rng: Random): Array[Int] = {
     var epc = Array.ofDim[Int](9)
-    for (_ <- 0 until 9)
-      epc(rng.nextInt(9)) += 1
+    epc(rng.nextInt(9)) += 2
+    epc(rng.nextInt(9)) += 5
+    epc(rng.nextInt(9)) += 2
     epc
   }
 }
 
-class PlantDna(
+class PlantDna (
   val color: Color,
   val energyPerClimate: Array[Int],
   val spread: Int,
   val maxAge: Int,
   val growthSpeed: Int) {
-
+  
   def mutate(rng: Random): PlantDna = {
     new PlantDna(
       new Color(mutateColor(color.getRed(), rng),
@@ -36,7 +37,7 @@ class PlantDna(
       mutateEnergyPerClimate(energyPerClimate, rng),
       if (rng.nextDouble < 0.9) spread else mutateInteger(spread, 1, 20, rng),
       mutateInteger(maxAge, 10, 1000, rng),
-      mutateInteger(growthSpeed, 10, 1000, rng))
+      mutateInteger(growthSpeed, 1, 1000, rng))
   }
 
   private val offsets = List(0, -1, 0, 0, 1, 0)
