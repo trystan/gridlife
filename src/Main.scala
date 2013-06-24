@@ -69,7 +69,7 @@ object gridlife extends SimpleSwingApplication {
           dnaLabel.text += " " + plant.energyPerClimate(i)
         dnaLabel.text += "<br/>Max Age: " + plant.maxAge
         dnaLabel.text += "<br/>Spread: " + plant.spread
-        dnaLabel.text += "<br/>Growth: " + Math.round(plant.growthSpeed * 10)
+        dnaLabel.text += "<br/>Growth: " + plant.growthSpeed
         dnaLabel.text += "</html>"
       }
     }

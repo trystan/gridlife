@@ -10,8 +10,8 @@ object PlantMaker { // Do work that can't be done in alternate constructor here.
                   makeRandomEnergyPerClimate(rng))
     p.age = rng.nextInt(10)
     p.maxAge = 50 + rng.nextInt(50) + rng.nextInt(50)
-    p.growthSpeed = rng.nextDouble() + rng.nextDouble();
-    p.energy = rng.nextInt(90)
+    p.growthSpeed = rng.nextInt(15) + rng.nextInt(15) + 1;
+    p.energy = rng.nextInt(10) + rng.nextInt(10) + 1
     p.spread = rng.nextInt(8) + 1
     p
   }
@@ -27,12 +27,12 @@ object PlantMaker { // Do work that can't be done in alternate constructor here.
 class Plant(var x: Int, var y: Int, val color: Color, val energyPerClimate: Array[Int]) {
   
   var age = 0
-  var energy = 5.0
+  var energy = 10
   var spread = 4
   var maxAge = 100
-  var growthSpeed = 1.0
+  var growthSpeed = 10
   
-  def alive = { age * growthSpeed < maxAge && energy > 0 }
+  def alive = { age < maxAge && energy > 0 }
   
   def update(w: World, rng: Random) = {
     age += 1
@@ -42,10 +42,9 @@ class Plant(var x: Int, var y: Int, val color: Color, val energyPerClimate: Arra
   }
   
   private def reproduce(w: World, rng: Random): Unit = {
-    if (energy < 100 || age < maxAge / 2) return
+    if (energy < 1000 || age < maxAge / 2) return
     
     w.addPlant(makeChild(rng))
-    energy *= 0.6
   }
   
   private def makeChild(rng: Random): Plant = {
@@ -64,16 +63,12 @@ class Plant(var x: Int, var y: Int, val color: Color, val energyPerClimate: Arra
       epc(to) += 1
     }
     val child = new Plant(childX, childY, childColor, epc)
-    child.energy = energy * 0.3
+    child.energy = energy / 10 * 3
+    energy = energy / 10 * 6
     child.maxAge = mutateInteger(maxAge, 10, 1000, rng)
     child.spread = if (rng.nextDouble < 0.9) spread else mutateInteger(spread, 1, 20, rng)
-    child.growthSpeed = mutateDouble(growthSpeed, 0.1, 10.0, rng)
+    child.growthSpeed = mutateInteger(growthSpeed, 1, 100, rng)
     child
-  }
-  
-  private def mutateDouble(double:Double, min:Double, max:Double, rng: Random): Double = {
-    val offset = (rng.nextDouble() - rng.nextDouble()) * 0.1
-    Math.max(min, Math.min(double + offset, max))
   }
   
   private val offsets = List(0, -1, 0, 0, 1, 0)
