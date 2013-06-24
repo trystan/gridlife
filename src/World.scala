@@ -7,7 +7,7 @@ class World(width: Int, height: Int) {
   val plantGrid = Array.ofDim[Plant](width, height)
   var plantList = Vector.empty[Plant]
   for (_ <- 0 to (width * height / 100))
-	  addPlant(PlantMaker.random(width, height, rng))
+	  addPlant(Plant.random(width, height, rng))
   
   def climateAt(x: Int, y: Int):Int = {
     climate.climateAt(x, y)
