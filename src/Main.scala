@@ -14,38 +14,28 @@ object gridlife extends SimpleSwingApplication {
     minimumSize = new Dimension(800, 700)
 
     val climateHistoryPanel = new ClimateHistoryPanel {
-        size = new Dimension(200, 100)
-        preferredSize = new Dimension(200, 100)
-        minimumSize = new Dimension(200, 100)
-      }
-    
+      size = new Dimension(200, 100)
+      preferredSize = new Dimension(200, 100)
+      minimumSize = new Dimension(200, 100)
+    }
+
     val selectedPlantInfoPanel = new SelectedPlantInfoPanel {
-        size = new Dimension(600, 100)
-        preferredSize = new Dimension(600, 100)
-        minimumSize = new Dimension(600, 100)
+      size = new Dimension(600, 100)
+      preferredSize = new Dimension(600, 100)
+      minimumSize = new Dimension(600, 100)
+    }
+
+    val worldViewPanel = new WorldViewPanel(world, selectedPlantInfoPanel) {
+      size = new Dimension(800, 600)
+      preferredSize = new Dimension(800, 600)
+      minimumSize = new Dimension(800, 600)
     }
 
     contents = new BoxPanel(Orientation.Vertical) {
-      {
-        contents += new Panel {
-          size = new Dimension(800, 600)
-          preferredSize = new Dimension(800, 600)
-          minimumSize = new Dimension(800, 600)
-          override def paintComponent(g: Graphics2D) = {
-            super.paintComponent(g)
-
-            world.view.draw(g)
-          }
-          listenTo(mouse.clicks)
-          reactions += {
-            case e: MouseClicked =>
-              selectedPlantInfoPanel.select(world.plantAt(e.point.x / 4, e.point.y / 4))
-          }
-        }
-        contents += new BoxPanel(Orientation.Horizontal) {
-          contents += climateHistoryPanel
-          contents += selectedPlantInfoPanel
-        }
+      contents += worldViewPanel
+      contents += new BoxPanel(Orientation.Horizontal) {
+        contents += climateHistoryPanel
+        contents += selectedPlantInfoPanel
       }
     }
 
