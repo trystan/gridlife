@@ -19,7 +19,11 @@ object gridlife extends SimpleSwingApplication {
         minimumSize = new Dimension(200, 100)
       }
     
-    val dnaLabel = new Label { text = " No plant selected" }
+    val selectedPlantInfoPanel = new SelectedPlantInfoPanel {
+        size = new Dimension(600, 100)
+        preferredSize = new Dimension(600, 100)
+        minimumSize = new Dimension(600, 100)
+    }
 
     contents = new BoxPanel(Orientation.Vertical) {
       {
@@ -35,32 +39,13 @@ object gridlife extends SimpleSwingApplication {
           listenTo(mouse.clicks)
           reactions += {
             case e: MouseClicked =>
-              select(world.plantAt(e.point.x / 4, e.point.y / 4))
+              selectedPlantInfoPanel.select(world.plantAt(e.point.x / 4, e.point.y / 4))
           }
         }
         contents += new BoxPanel(Orientation.Horizontal) {
           contents += climateHistoryPanel
-          contents += new BoxPanel(Orientation.Vertical) {
-            size = new Dimension(600, 100)
-            preferredSize = new Dimension(600, 100)
-            minimumSize = new Dimension(600, 100)
-            contents += dnaLabel
-          }
+          contents += selectedPlantInfoPanel
         }
-      }
-    }
-
-    def select(plant: Plant) = {
-      if (plant == null) {
-        dnaLabel.text = "No plant selected"
-      } else {
-        dnaLabel.text = "<html>Energy gained per climate: "
-        for (i <- 0 until plant.energyPerClimate.length)
-          dnaLabel.text += " " + plant.energyPerClimate(i)
-        dnaLabel.text += "<br/>Max Age: " + plant.maxAge
-        dnaLabel.text += "<br/>Spread: " + plant.spread
-        dnaLabel.text += "<br/>Growth: " + plant.growthSpeed
-        dnaLabel.text += "</html>"
       }
     }
 
