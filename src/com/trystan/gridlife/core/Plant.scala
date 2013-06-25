@@ -26,15 +26,19 @@ class Plant(var x: Int, var y: Int, val dna: PlantDna) {
     age += 1
     energy += (energyPerClimate(w.climateAt(x, y)) - 1) * growthSpeed
 
-    if (energy >= 1000 && age >= maxAge / 4)
+    if (energy > 10 * growthSpeed && age >= maxAge / 4)
       w.plants.add(makeChild(rng))
   }
 
   private def makeChild(rng: Random): Plant = {
+    var newX = x
+    var newY = y
+    while (newX == x && newY == y)
+    {
+      newX = x + rng.nextInt(spread * 2 + 1) - spread
+      newY = y + rng.nextInt(spread * 2 + 1) - spread
+    }
     energy -= 10 * growthSpeed
-    new Plant(
-      x + rng.nextInt(spread * 2 + 1) - spread,
-      y + rng.nextInt(spread * 2 + 1) - spread,
-      dna.mutate(rng))
+    new Plant(newX, newY, dna.mutate(rng))
   }
 }

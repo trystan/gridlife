@@ -8,16 +8,15 @@ object PlantDna {
     new PlantDna(
       new Color(128 + rng.nextInt(64), 128 + rng.nextInt(64), 128 + rng.nextInt(64)),
       randomEnergyPerClimate(rng),
-      rng.nextInt(8) + 1,
-      50 + rng.nextInt(50) + rng.nextInt(50),
-      rng.nextInt(10) + rng.nextInt(10) + 1)
+      1 + rng.nextInt(5),
+      1 + rng.nextInt(500),
+      1 + rng.nextInt(10))
   }
 
   def randomEnergyPerClimate(rng: Random): Array[Int] = {
     var epc = Array.ofDim[Int](9)
-    epc(rng.nextInt(9)) += 2
-    epc(rng.nextInt(9)) += 5
-    epc(rng.nextInt(9)) += 2
+    for (_ <- 1 to 9)
+    	epc(rng.nextInt(9)) += 1
     epc
   }
 }
@@ -31,7 +30,8 @@ class PlantDna (
   
   def mutate(rng: Random): PlantDna = {
     new PlantDna(
-      new Color(mutateColor(color.getRed(), rng),
+      new Color(
+        mutateColor(color.getRed(), rng),
         mutateColor(color.getGreen(), rng),
         mutateColor(color.getBlue(), rng)),
       mutateEnergyPerClimate(energyPerClimate, rng),
@@ -41,13 +41,16 @@ class PlantDna (
   }
 
   private val offsets = List(0, -1, 0, 0, 1, 0)
-
   private def mutateInteger(int: Int, min: Int, max: Int, rng: Random): Int = {
     val offset = offsets(rng.nextInt(offsets.length))
     Math.max(min, Math.min(int + offset, max))
   }
 
-  private def mutateColor(int: Int, rng: Random): Int = mutateInteger(int, 64, 250, rng)
+  private val colorOffsets = List(-2, -1, 0, 1, 2)
+  private def mutateColor(color: Int, rng: Random): Int = {
+    val offset = colorOffsets(rng.nextInt(colorOffsets.length))
+    Math.max(64, Math.min(color + offset, 250))
+  }
 
   private def mutateEnergyPerClimate(source: Array[Int], rng: Random): Array[Int] = {
     val from = rng.nextInt(9)

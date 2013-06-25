@@ -9,8 +9,8 @@ class Climate(width: Int, height: Int, rng: Random) {
 
   var grid = Array.ofDim[Int](width, height)
 
-  def shortCycle = Math.sin(Math.Pi * 2 * cycleTime / 11) * 0.5
-  def mediumCycle = Math.sin(Math.Pi * 2 * cycleTime / 197) * 0.75
+  def shortCycle = Math.sin(Math.Pi * 2 * cycleTime / 11) * 0.33
+  def mediumCycle = Math.sin(Math.Pi * 2 * cycleTime / 197) * 0.66
   def longCycle = Math.sin(Math.Pi * 2 * cycleTime / 499)
   def cycles = shortCycle + mediumCycle + longCycle
 

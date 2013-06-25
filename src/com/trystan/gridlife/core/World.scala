@@ -7,7 +7,7 @@ class World(width: Int, height: Int) {
   val climate = new Climate(width, height, rng)
 
   val plants = new PlantPopulation(width, height)
-  plants.populate(width * height / 10, rng)
+  plants.populate(width * height / 100, rng)
 
   def climateAt(x: Int, y: Int): Int = {
     climate.climateAt(x, y)
