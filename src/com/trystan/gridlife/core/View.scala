@@ -26,9 +26,9 @@ class View(width: Int, height: Int, climate: Climate, plants: Vector[Plant]) {
 
   def drawPlant(plant: Plant, g: Graphics2D): Unit = {
     g.setColor(plant.color)
-    if (plant.age < 3)
+    if (plant.age < 5)
       g.fillRect(plant.x * 4 + 2, plant.y * 4 + 2, 1, 1)
-    else if (plant.age < 10)
+    else if (plant.age < 20)
       g.fillRect(plant.x * 4 + 2, plant.y * 4 + 2, 2, 2)
     else
       g.fillRect(plant.x * 4 + 1, plant.y * 4 + 1, 3, 3)

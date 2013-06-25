@@ -28,6 +28,8 @@ class PlantDna (
   val maxAge: Int,
   val growthSpeed: Int) {
   
+  val mutationRate = 0.1
+  
   def mutate(rng: Random): PlantDna = {
     new PlantDna(
       new Color(
@@ -35,24 +37,33 @@ class PlantDna (
         mutateColor(color.getGreen(), rng),
         mutateColor(color.getBlue(), rng)),
       mutateEnergyPerClimate(energyPerClimate, rng),
-      if (rng.nextDouble < 0.9) spread else mutateInteger(spread, 1, 20, rng),
+      mutateInteger(spread, 1, 20, rng),
       mutateInteger(maxAge, 10, 1000, rng),
       mutateInteger(growthSpeed, 1, 1000, rng))
   }
 
   private val offsets = List(0, -1, 0, 0, 1, 0)
   private def mutateInteger(int: Int, min: Int, max: Int, rng: Random): Int = {
+    if (rng.nextDouble > mutationRate)
+      return int
+    
     val offset = offsets(rng.nextInt(offsets.length))
     Math.max(min, Math.min(int + offset, max))
   }
 
-  private val colorOffsets = List(-2, -1, 0, 1, 2)
+  private val colorOffsets = List(-8, -6, -1, 0, 1, 6, 8)
   private def mutateColor(color: Int, rng: Random): Int = {
+    if (rng.nextDouble > mutationRate)
+      return color
+    
     val offset = colorOffsets(rng.nextInt(colorOffsets.length))
     Math.max(64, Math.min(color + offset, 250))
   }
 
   private def mutateEnergyPerClimate(source: Array[Int], rng: Random): Array[Int] = {
+    if (rng.nextDouble > mutationRate)
+      return source.clone()
+      
     val from = rng.nextInt(9)
     val to = rng.nextInt(9)
     val epc = source.clone()

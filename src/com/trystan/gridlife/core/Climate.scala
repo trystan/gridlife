@@ -4,8 +4,8 @@ import scala.util.Random
 
 class Climate(width: Int, height: Int, rng: Random) {
 
-  var perlinTime = rng.nextInt(2000) * 1.0
-  var cycleTime = 0.0
+  var perlinTime = rng.nextDouble()
+  var cycleTime = rng.nextDouble()
 
   var grid = Array.ofDim[Int](width, height)
 
@@ -24,7 +24,6 @@ class Climate(width: Int, height: Int, rng: Random) {
 
     for (x <- 0 until width)
       for (y <- 0 until height)
-        grid(x)(y) = ((ImprovedNoise.noise(x * 0.033, y * 0.033, perlinTime) + 1.0) * 4.5
-          + cycles).toInt
+        grid(x)(y) = (((ImprovedNoise.noise(x * 0.033, y * 0.033, perlinTime) + 1.0) * 5 - 1) + cycles).toInt
   }
 }
